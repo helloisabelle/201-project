@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 	
 <%@ page import = "Events.AddressComponent, Events.build, Events.Event_loc, Events.Event, Events.Example, 
-				   Events.geocode, add.ChatMessage, Events.Geometry, Events.Location, Events.Location, Events.Northeast, Events.PlusCode,java.lang.Integer, Events.reading_event, Events.Result, Events.Southwest, Events.Viewport, java.util.ArrayList, java.util.Map , java.util.HashMap, java.io.File,group.check" %>
+				   Events.geocode, Events.Geometry, Events.Location, Events.Location, Events.Northeast, Events.PlusCode,java.lang.Integer, Events.reading_event, Events.Result, Events.Southwest, Events.Viewport, java.util.ArrayList, java.util.Map , java.util.HashMap, java.io.File,group.check" %>
 
   <%@ page import="java.io.*, java.net.*" %>
 <!DOCTYPE html>
@@ -13,7 +13,8 @@
 		<title>Insert title here</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
     	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    	 <link rel = "stylesheet" type = "text/css" href = "CSS_Files/index_grid.css">
+    	<link rel = "stylesheet" type = "text/css" href = "CSS_Files/index_grid.css">
+    	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
 	</head>
 	<body>
@@ -79,7 +80,7 @@
     <a href="index.jsp" class="logo"><div style = "display: inline-block; color: #d6b2ff;">sc</div>hoolfood</a>
   <div class="header-right">
   <a href="fav2.jsp">Favorites</a>
-    <a href="index_bs.jsp">Log Out</a>
+    <a href="index_bss.jsp">Log Out</a>
   </div>
 </div>
 
@@ -249,41 +250,52 @@
 					<!-- End of carousel -->
 				</div> 
                 <!-- End of the col class-->
-                <div id = "events_column" class = "col-sm-3" style = "position:absolute; left:5%; top: 2%; height: 600px;">
-                	<div id ="event_flexbox" class="d-inline-flex p-3 bg-light text-body">
-	  					<nav id="sidebar">
-       						<div class="sidebar-header">
+                <div id = "events_column" class = "col-sm-3" style = "position:absolute; left:0%; top: -4.5%; height: 600px;">
+                	<div id ="event_flexbox" class="d-inline-flex p-3 bg-light text-body" style = "border-radius: 5px padding-top: 0px">
+       					
+							<div class="sidebar-header">
             					<h3>Free Food Events This Week</h3>
         					</div>
-
-        					<ul class="list-unstyled components">
+        					<ul class="list-unstyled components" style = "overflow:scroll;-webkit-overflow-scrolling: touch;">
            						
 		           				<% 
 								 
 								
 								for (int i = 0; i < event_array.size();i++){
 									String t = event_array.get(i).getTitle();
+									String Description = event_array.get(i).getDescription();
+									String location = event_array.get(i).getLocation();
+									String time = event_array.get(i).getTime();
+									
 									int x = event_array.get(i).getLike();
 									int like_id = i;
 									//System.out.println("hereee");
 								 %>
 								 
-								 <div class="roww" style = "display: block; background: #f8f8ff; padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
-									<div class="cell" style = "display: flex; justify-content: space-between;">
-									
-									<form name = "myform<%= like_id %>" action = "index_bs2.jsp" onsubmit="return validate('<%=i %>');" method = "GET">
-									<input name="like_id" value = <%= like_id %> style = "display: none;">
-					                <input  id="formerror<%= like_id %>" class = "btn"   type="submit" value= "♥ <%= x %>">
-									</form>
-						 			<%-- <button style = "inline-block;" id = <%=like_id%> onclick = "like('<%=t %>')"> Like <%= x %> </button> --%>
-						 			<a style = "display: inline-block;" id = <%=i %> onclick = "func('<%=i %>')" href="details2.jsp" ><%= t %></a>  
-						 			<%-- <button onclick = "add('<%=i %>')" style = "float: right;" class="btn" id = <%= i%>><i class="fa fa-star"></i> Add to Favorites</button> --%>
+								 <div class="row" style = "display: inline-block; background: #f8f8ff; border: 3px solid #f4f4f4; border-radius: 5px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
+									<div class="cell" style = "display: flex-vertical; justify-content: space-between;">
+										<a style = "padding-left: 10px;display: inline-block; font-family: lora;color: black;font-size: 23px; text-decoration: none" id = <%=i %> onclick = "func('<%=i %>')" href="details2.jsp" ><%= t %></a>
+										
 									</div>
 									
+											<form name = "myform<%= like_id %>" action = "index_bs2.jsp" onsubmit="return validate('<%=i %>');" method = "GET">
+											<input name="like_id" value = <%= like_id %> style = "display: none;">
+							               
+											</form>
+											
+											
+											<p style = "color: #3e4144;padding-left:10px;">  <%=Description %></p>
+											<p><i class="far fa-clock" style = "padding-left: 5px; "></i>  <%=time %></p>
+											<p><i class="fas fa-map-marker-alt" style = "padding-left: 5px;"></i><%=location %><span style = "float: right; padding-right: 5px;"><input  id="formerror<%= like_id %>" class = "btn"  style = "padding: 3px 3px; text-shadow: 0px  -1px 0px rgba(0,0,0,.5);-webkit-box-shadow: 0px 6px 0px #2b638f; -moz-box-shadow: 0px 6px 0px #2b638f; box-shadow: 0px 6px 0px #2b638f; " type="submit" value= "♥ <%= x %>"></span> </p>
+											
+											
+								 			<%-- <button style = "inline-block;" id = <%=like_id%> onclick = "like('<%=t %>')"> Like <%= x %> </button> --%>
+								 			  
+								 			<%-- <button onclick = "add('<%=i %>')" style = "float: right;" class="btn" id = <%= i%>><i class="fa fa-star"></i> Add to Favorites</button> --%>
 								</div>
 								
 								<%} %>
-           						
+           						</ul>
            						
            						<!-- <li class="active">
 					                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
@@ -323,17 +335,15 @@
             					<li>
                 					<a href="#">Contact</a>
             					</li> -->
-        					</ul>
-
-   						</nav>
+        				
 					</div>
                 </div>
 			</div>
 			<!-- End of the row First row class -->
 			
-			<div class = "row">
+			<div id = "outterMap" class = "row">
 				<div class= "col-xl-12">
-					<div id = "map" class = "jumbotron" style = "position:absolute; margin-top: -56.5%; margin-left: 30%; z-index: 100; height: 575px" ></div>
+					<div id = "map" class = "jumbotron" style = "position:absolute; margin-top: -47.25%; margin-left: 30%; z-index: 100; height: 575px" ></div>
 				</div>
 			</div>
 		<script>
@@ -341,7 +351,6 @@
 	      var Latlng1 = {lat: 34.0223, lng: -118.2852 };
 	      var Latlng2 = {lat: 34.0222, lng: -118.2855 };
 	      var Latlng3 = {lat: 34.0215, lng: -118.2880}; 
-	      
 	      var contentString = '<div id="content">'+
 	      '<div id="siteNotice">'+
 	      '</div>'+
@@ -401,7 +410,7 @@
 	    	      	    position: Latlng1,
 	    	      	    animation: google.maps.Animation.DROP,
 	    	      	    map: map,
-	    	      	    title: '<%=name%>',
+	    	      	    title: '<%=name%>'
 	    	      	  }); 
 	    	 		
 	    		<%}
@@ -453,7 +462,6 @@
 	      	
 	      	marker3.addListener('mouseover', function(){toggleBounceAndDisplay(marker3, infowindow, map)});
 	         */
-	         windowInfo = new google.maps.InfoWindow;
 	        
 	        if (navigator.geolocation) {
 	            navigator.geolocation.getCurrentPosition(function(position) {
