@@ -250,92 +250,56 @@
 					<!-- End of carousel -->
 				</div> 
                 <!-- End of the col class-->
-                <div id = "events_column" class = "col-sm-3" style = "position:absolute; left:0%; top: -4.5%; height: 600px;">
-                	<div id ="event_flexbox" class="d-inline-flex p-3 bg-light text-body" style = "border-radius: 5px padding-top: 0px">
-       					
-							<div class="sidebar-header">
-            					<h3>Free Food Events This Week</h3>
-        					</div>
-        					<ul class="list-unstyled components" style = "overflow:scroll;-webkit-overflow-scrolling: touch;">
-           						
-		           				<% 
-								 
+                <div id = "events_column" class = "col-sm-3" style = "position:absolute; left:0%; top: 9%;">
+                	<!-- <div id ="event_flexbox" class="d-inline-flex p-3 bg-light text-body" style = "border-radius: 5px padding-top: 0px">-->
+       					<div class="card" id="result_panel" style = "max-height: 650px;overflow-y: auto;">
+       				
+    						<div class = "card-header" style = "color: white; font-size: 35px; font-family:lora ;background-color:#3a3a3a ;">Free Food Events This Week</div>
+	   						<div class="card-body" style = "border-radius: 5px ;">
 								
-								for (int i = 0; i < event_array.size();i++){
-									String t = event_array.get(i).getTitle();
-									String Description = event_array.get(i).getDescription();
-									String location = event_array.get(i).getLocation();
-									String time = event_array.get(i).getTime();
+	        					<ul class="list-group list-group-flush" style = "overflow:scroll;-webkit-overflow-scrolling: touch;">
+	           						
+			           				<% 
+									 
 									
-									int x = event_array.get(i).getLike();
-									int like_id = i;
-									//System.out.println("hereee");
-								 %>
-								 
-								 <div class="row" style = "display: inline-block; background: #f8f8ff; border: 3px solid #f4f4f4; border-radius: 5px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
-									<div class="cell" style = "display: flex-vertical; justify-content: space-between;">
-										<a style = "padding-left: 10px;display: inline-block; font-family: lora;color: black;font-size: 23px; text-decoration: none" id = <%=i %> onclick = "func('<%=i %>')" href="details2.jsp" ><%= t %></a>
+									for (int i = 0; i < event_array.size();i++){
+										String t = event_array.get(i).getTitle();
+										String Description = event_array.get(i).getDescription();
+										String date = event_array.get(i).getDate();
+										String location = event_array.get(i).getLocation();
+										String time = event_array.get(i).getTime();
 										
-									</div>
-									
-											<form name = "myform<%= like_id %>" action = "index_bs2.jsp" onsubmit="return validate('<%=i %>');" method = "GET">
-											<input name="like_id" value = <%= like_id %> style = "display: none;">
-							               
-											</form>
+										int x = event_array.get(i).getLike();
+										int like_id = i;
+										//System.out.println("hereee");
+									 %>
+									 <li class = "list-group-item">
+										 <div class="row" style = "display: inline-block; background: #f8f8ff; border: 1px solid black; border-radius: 5px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
+											<div class="cell" style = "display: flex-vertical; justify-content: space-between;">
+												<a style = "padding-left: 10px;display: inline-block; font-family: lora;color: black;font-size: 23px; text-decoration: none" id = <%=i %> onclick = "func('<%=i %>')" href="details2.jsp" ><%= t %></a>
+												
+											</div>
 											
-											
-											<p style = "color: #3e4144;padding-left:10px;">  <%=Description %></p>
-											<p><i class="far fa-clock" style = "padding-left: 5px; "></i>  <%=time %></p>
-											<p><i class="fas fa-map-marker-alt" style = "padding-left: 5px;"></i><%=location %><span style = "float: right; padding-right: 5px;"><input  id="formerror<%= like_id %>" class = "btn"  style = "padding: 3px 3px; text-shadow: 0px  -1px 0px rgba(0,0,0,.5);-webkit-box-shadow: 0px 6px 0px #2b638f; -moz-box-shadow: 0px 6px 0px #2b638f; box-shadow: 0px 6px 0px #2b638f; " type="submit" value= "♥ <%= x %>"></span> </p>
-											
-											
-								 			<%-- <button style = "inline-block;" id = <%=like_id%> onclick = "like('<%=t %>')"> Like <%= x %> </button> --%>
-								 			  
-								 			<%-- <button onclick = "add('<%=i %>')" style = "float: right;" class="btn" id = <%= i%>><i class="fa fa-star"></i> Add to Favorites</button> --%>
-								</div>
-								
-								<%} %>
-           						</ul>
-           						
-           						<!-- <li class="active">
-					                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-					             	<ul class="collapse list-unstyled" id="homeSubmenu">
-		                   				<li>
-		                       				<a href="#">Home 1</a>
-		                    			</li>
-		                    			<li>
-		                        			<a href="#">Home 2</a>
-		                    			</li>
-		                    			<li>
-		                        			<a href="#">Home 3</a>
-		                    			</li>
-		                    			
-	                				</ul>
-            					</li>
-            					<li>
-                					<a href="#">About</a>
-            					</li>
-            					<li>
-                					<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                					<ul class="collapse list-unstyled" id="pageSubmenu">
-                   						<li>
-                       						<a href="#">Page 1</a>
-                    					</li>
-                   						<li>
-                       	 					<a href="#">Page 2</a>
-                    					</li>
-                    					<li>
-                        					<a href="#">Page 3</a>
-                    					</li>
-                					</ul>
-            					</li> -->
-            					<!-- <li>
-                					<a href="#">Portfolio</a>
-            					</li>
-            					<li>
-                					<a href="#">Contact</a>
-            					</li> -->
-        				
+													<form name = "myform<%= like_id %>" action = "index_bs2.jsp" onsubmit="return validate('<%=i %>');" method = "GET">
+													<input name="like_id" value = <%= like_id %> style = "display: none;">
+									               
+													</form>
+													
+													
+													<p style = "color: #76797c;padding-left:10px;">  <%=Description %></p>
+													<p style = "color: black"><i class="far fa-clock" style = "padding-left: 5px; color: black; "></i>Time:   <%=time %></p>
+													<p style = "color: black"><i class="far fa-calendar-alt" style = "padding-left: 5px; color: black; "></i>Date:   <%=date %></p>
+													<p style = "color: black"><i class="fas fa-map-marker-alt" style = "padding-left: 5px;color: black"></i> Building: <%=location %><span style = "float: right; padding-right: 5px;"><input  id="formerror<%= like_id %>" class = "btn"  style = "padding: 3px 3px; text-shadow: 0px  -1px 0px rgba(0,0,0,.5);-webkit-box-shadow: 0px 6px 0px #2b638f; -moz-box-shadow: 0px 6px 0px #2b638f; box-shadow: 0px 6px 0px #2b638f; " type="submit" value= "♥ <%= x %>"></span> </p>
+													
+													
+										 			<%-- <button style = "inline-block;" id = <%=like_id%> onclick = "like('<%=t %>')"> Like <%= x %> </button> --%>
+										 			  
+										 			<%-- <button onclick = "add('<%=i %>')" style = "float: right;" class="btn" id = <%= i%>><i class="fa fa-star"></i> Add to Favorites</button> --%>
+										</div>
+									</li>
+									<%} %>
+	           						</ul>
+	           					</div>
 					</div>
                 </div>
 			</div>
@@ -348,30 +312,7 @@
 			</div>
 		<script>
 	      var map, windowInfo;
-	      var Latlng1 = {lat: 34.0223, lng: -118.2852 };
-	      var Latlng2 = {lat: 34.0222, lng: -118.2855 };
-	      var Latlng3 = {lat: 34.0215, lng: -118.2880}; 
-	      var contentString = '<div id="content">'+
-	      '<div id="siteNotice">'+
-	      '</div>'+
-	      '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-	      '<div id="bodyContent">'+
-	      '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-	      'sandstone rock formation in the southern part of the '+
-	      'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
-	      'south west of the nearest large town, Alice Springs; 450&#160;km '+
-	      '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
-	      'features of the Uluru - Kata Tjuta National Park. Uluru is '+
-	      'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-	      'Aboriginal people of the area. It has many springs, waterholes, '+
-	      'rock caves and ancient paintings. Uluru is listed as a World '+
-	      'Heritage Site.</p>'+
-	      '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-	      'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-	      '(last visited June 22, 2009).</p>'+
-	      '</div>'+
-	      '</div>';
-	      
+	     
 	      function initMap() {
 	      		
 	    	 var eventArray = [];
@@ -392,8 +333,39 @@
 
 	    	  geocode g = new geocode();
 	    	  ArrayList<Event_loc> locs = new ArrayList<>();
+	    	  int i = 0;
 	    	  for(Event e: event_array){
 	    		if(!e.getLocation().equals("")){
+	    			String t = e.getTitle();
+					String Description = e.getDescription();
+					String date = e.getDate();
+					String location = e.getLocation();
+					String time = e.getTime();
+					
+					int x = e.getLike();
+					int like_id = i;
+					i= i + 1;
+			  %>
+		      var contentString = '<div id="content">'+
+		      '<h1 id="firstHeading" class="firstHeading"> <b>' +
+		      '<%=t%>'+
+		      '</b></h1>'+
+		      '<div id="bodyContent">'+
+		      '<p><br>' +'<%=Description%>' + 
+		      '</p><br>'+
+		      '<p> Time: ' + 
+		      '<%=time%>' + 
+		      '</p><br>'+
+		      '<p> Date: ' + 
+		      '<%=date%>' + 
+		      '</p><br>'+
+		      '<p>Building: ' + 
+		      '<%=location%>' + 
+		      '</p>'+
+		      '</div>'+
+		      '</div>';
+	    			
+	    		<%	
 	    	 		String address = map.get(e.getLocation()).trim();
 	    	 		
 	    	 		Example ex = g.convert2(address);
@@ -403,8 +375,10 @@
 	    	 		locs.add(loc);
 	    	 		String name = e.getTitle();
 	    	 		%>
+	    	 		var infowindow = new google.maps.InfoWindow({
+	    	            content: contentString});
 	    	 		var x = <%=loc.lat%>;
-	  	    	  var y = <%=loc.lon%>;
+	  	    	    var y = <%=loc.lon%>;
 	    	 		var Latlng1 = {lat: x, lng: y };
 	    	 		var marker1 = new google.maps.Marker({
 	    	      	    position: Latlng1,
@@ -412,6 +386,7 @@
 	    	      	    map: map,
 	    	      	    title: '<%=name%>'
 	    	      	  }); 
+	    	 		marker1.addListener('mouseover', function(){toggleBounceAndDisplay(marker1, infowindow, map)});
 	    	 		
 	    		<%}
 	    		} 
@@ -426,11 +401,7 @@
   	      	    map: map,
   	      	    title: "hi"
   	      	  }); --%>
-	      	
-	      	var infowindow = new google.maps.InfoWindow({
-	            content: contentString
 	
-	      	});
 	      	
 <%-- 	      	<%
 	      	String x = "hello";
@@ -469,10 +440,6 @@
 	                lat: position.coords.latitude,
 	                lng: position.coords.longitude
 	              };
-	
-	              windowInfo.setPosition(pos);
-	              windowInfo.setContent('Your Location.');
-	              windowInfo.open(map);
 	              
 	            }, function() {
 	              handleLocationError(true, windowInfo, map.getCenter());
