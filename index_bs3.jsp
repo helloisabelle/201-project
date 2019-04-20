@@ -140,6 +140,12 @@ window.onload = function() {
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"> </script>
 	<script>
 	
+	
+	function sort(x){
+		var list = document.getElementById("eventTable");
+		
+	}
+	
 	function validate(i) {
 		add(i);
 		 document.getElementById("formerror" + i).value = "hello";
@@ -187,16 +193,27 @@ window.onload = function() {
 	}
 				
 </script>
-
                 <!-- End of the col class-->
                 <div id = "events_column" class = "col-sm-3" style = "position:absolute; left:3%; top: 11%;">
                 	<!-- <div id ="event_flexbox" class="d-inline-flex p-3 bg-light text-body" style = "border-radius: 5px padding-top: 0px">-->
        					<div class="card" id="result_panel" style = "max-height: 650px;overflow-y: auto;">
        				
-    						<div class = "card-header" style = "color: white; font-size: 23px; font-family: andika  ;background-color:#3a3a3a ;">Free Food Events This Week</div>
+    						<div class = "card-header" style = "color: white; font-size: 23px; font-family: andika  ;background-color:#3a3a3a ;">
+    							Free Food Events This Week
+    							
+    							<div id="custom-select">
+    								<span style = "float: right">
+										<select id = "selectID" style = "background-color: dodgerblue ;color: white; font-size:15px"  onchange = "sort(this.value);">
+											<option value="0" style = "color: white" >Likes DESC</option>
+									
+										</select>
+									</span>
+								</div>
+								
+    						</div>
 	   						<div class="card-body" style = "border-radius: 5px ;">
 								
-	        					<ul class="list-group list-group-flush" style = "overflow:scroll;-webkit-overflow-scrolling: touch;">
+	        					<ul class="list-group list-group-flush" id = "eventTable"style = "overflow:scroll;-webkit-overflow-scrolling: touch;">
 	           						
 			           				<% 
 									 
@@ -212,7 +229,7 @@ window.onload = function() {
 										int like_id = i;
 										//System.out.println("hereee");
 									 %>
-									 <li class = "list-group-item">
+									 <li class = "list-group-item" id = "eventRow">
 										 <div class="row" style = "display: inline-block; background: #f8f8ff; border: 1px solid black; border-radius: 5px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
 											<div class="cell" style = "display: flex-vertical; justify-content: space-between;">
 												<div  style = "display: flex; flex-direction: row; justify-content: space-between; width: 270px;">
@@ -247,16 +264,36 @@ window.onload = function() {
 			
 			<div id = "outterMap" class = "row">
 				<div class= "col-xl-12">
-					<div id = "map" class = "jumbotron" style = "position:absolute; margin-top: 5%; margin-left: 30%; z-index: 100; height: 575px; margin-bottom: 500px;" ></div>
+					<div id = "map" class = "jumbotron" style = "position:absolute; color: black; margin-top: -6%; margin-left: 30%; z-index: 100; height: 575px; margin-bottom: 500px;" ></div>
 				</div>
 			</div>
+	
 			
 			
 		<script>
 	      var map, windowInfo;
 	     
 	      function initMap() {
-	      		
+	      	
+	    	  
+	    	  var location = new google.maps.InfoWindow;
+		        if (navigator.geolocation) {
+		            navigator.geolocation.getCurrentPosition(function(position) {
+		              var pos = {
+		                lat: position.coords.latitude,
+		                lng: position.coords.longitude
+		              };
+		              location.setPosition(pos);
+		              location.setContent('Current Location.');
+		              location.open(map);
+		              
+		            }, function() {
+		              handleLocationError(true, windowInfo, map.getCenter());
+		            });
+		          } else {
+		            // Browser doesn't support Geolocation
+		            handleLocationError(false, windowInfo, map.getCenter());
+		          }
 	    	 var markerArray = [];
 	    	 var windowArray = [];
 	    	 map = new google.maps.Map(document.getElementById('map'), {
@@ -323,7 +360,9 @@ window.onload = function() {
 	    	 		String name = e.getTitle();
 	    	 		%>
 	    	 		var infowindow = new google.maps.InfoWindow({
-	    	            content: contentString});
+	    	            content: contentString,
+	    	            maxWidth: 300
+	    	            });
 	    	 		windowArray.push(infowindow);
 	    	 		var x = <%=loc.lat%>;
 	  	    	    var y = <%=loc.lon%>;
@@ -335,48 +374,24 @@ window.onload = function() {
 	    	      	    title: '<%=name%>'
 	    	      	  }); 
 	    	 		markerArray.push(marker1);
-	    	 		markerArray[<%=i%>].addListener('mouseover', function(){toggleBounceAndDisplay(markerArray[<%=i%>],windowArray[<%=i%>], map)});
+	    	 		markerArray[<%=i%>].addListener('mouseover', function(){Display(markerArray[<%=i%>],windowArray[<%=i%>], map)});
 	    	 		<%i = i+1;%>
 	    		<%}
 	    		} 
 	    	  
 	    	  %>
 
-	        
-	        if (navigator.geolocation) {
-	            navigator.geolocation.getCurrentPosition(function(position) {
-	              var pos = {
-	                lat: position.coords.latitude,
-	                lng: position.coords.longitude
-	              };
-	              
-	            }, function() {
-	              handleLocationError(true, windowInfo, map.getCenter());
-	            });
-	          } else {
-	            // Browser doesn't support Geolocation
-	            handleLocationError(false, windowInfo, map.getCenter());
-	          }
 	    }// End of init map function 
-	        
-	        
-	        function handleLocationError(browserHasGeolocation, windowInfo, pos) {
-	          infoWindow.setPosition(pos);
-	          infoWindow.setContent(browserHasGeolocation ?
-	                                'Error: The Geolocation service failed.' :
-	                                'Error: Your browser doesn\'t support geolocation.');
-	          infoWindow.open(map);
-	        }
-	        
-	        function toggleBounceAndDisplay(marker, infowindow, map) {
-	        	  if (marker.getAnimation() !== null) {
-	        	    marker.setAnimation(null);
-	        	  } else {
-	        	    marker.setAnimation(google.maps.Animation.BOUNCE);
-	        	  } 
-	        	  infowindow.open(map, marker);
-	        }
         
+	    function Display(marker1, infowindow, map) {
+        	if (marker1.getAnimation() !== null) {
+        	    marker1.setAnimation(null);
+        	  } else {
+        	    marker1.setAnimation(google.maps.Animation.BOUNCE);
+        	  } 
+        	  infowindow.open(map, marker1);
+        }
+	    
    		</script>
 		<!-- End of the container class -->
 		<!--  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
@@ -393,8 +408,88 @@ window.onload = function() {
     	 
 		
 		
-		    	<canvas class="background"></canvas>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
-    
+		<canvas class="background"></canvas>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
+    	<footer class="page-footer font-small blue pt-4 fixed-bottom" style = "position: relative; height: auto; background-color: #3a3a3a; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) ">
+
+			    <!-- Footer Links -->
+				<div class="container-fluid text-center text-md-left">
+			
+			      <!-- Grid row -->
+			    	<div class="row">
+			
+			        <!-- Grid column -->
+			        	<div class="col-md-6 mt-md-0 mt-3">
+			
+			          <!-- Content -->
+				        	<h5 class="text-uppercase">Footer Content</h5>
+				        	<p>Here you can use rows and columns here to organize your footer content.</p>
+				
+			        	</div>
+			        <!-- Grid column -->
+			
+			        	<hr class="clearfix w-100 d-md-none pb-3">
+			
+			        	<!-- Grid column -->
+			        	<div class="col-md-3 mb-md-0 mb-3">
+			
+				            <!-- Links -->
+				            <h5 class="text-uppercase">Links</h5>
+				
+				            <ul class="list-unstyled">
+				            	<li>
+				                	<a href="#!">Link 1</a>
+				              	</li>
+				              	<li>
+				                	<a href="#!">Link 2</a>
+				             	</li>
+				              	<li>
+				                	<a href="#!">Link 3</a>
+				              	</li>
+				              	<li>
+				                	<a href="#!">Link 4</a>
+				              	</li>
+				            </ul>
+			          	</div>
+			          <!-- Grid column -->
+			
+			          <!-- Grid column -->
+			          <div class="col-md-3 mb-md-0 mb-3">
+			
+			            <!-- Links -->
+			            <h5 class="text-uppercase">Links</h5>
+			
+			            <ul class="list-unstyled">
+			              <li>
+			                <a href="#!">Link 1</a>
+			              </li>
+			              <li>
+			                <a href="#!">Link 2</a>
+			              </li>
+			              <li>
+			                <a href="#!">Link 3</a>
+			              </li>
+			              <li>
+			                <a href="#!">Link 4</a>
+			              </li>
+			            </ul>
+			
+			          </div>
+			          <!-- Grid column -->
+			
+			      </div>
+			      <!-- Grid row -->
+			
+			    </div>
+			    <!-- Footer Links -->
+			
+			    <!-- Copyright -->
+			    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+			      <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+			    </div>
+			    <!-- Copyright -->
+			
+			  </footer>
+    	
 	</body>
 </html>

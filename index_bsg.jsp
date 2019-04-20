@@ -309,7 +309,9 @@ window.onload = function() {
 	    	 		String name = e.getTitle();
 	    	 		%>
 	    	 		var infowindow = new google.maps.InfoWindow({
-	    	            content: contentString});
+	    	            content: contentString,
+	    	            maxWidth:300
+	    	            });
 	    	 		windowArray.push(infowindow);
 	    	 		var x = <%=loc.lat%>;
 	  	    	    var y = <%=loc.lon%>;
