@@ -4,7 +4,7 @@
 <%@ page import = "Events.AddressComponent, Events.build, Events.Event_loc, Events.Event, Events.Example, 
 				   Events.geocode, Events.Geometry, Events.Location, Events.Location, Events.Northeast, Events.PlusCode,java.lang.Integer,
 				   Events.reading_event, Events.Result, Events.Southwest, Events.Viewport, java.util.ArrayList, java.util.Map,
-				   java.util.HashMap, java.io.File,group.check, Events.eventSorter" %>
+				   java.util.HashMap, java.io.File,group.check" %>
 
   <%@ page import="java.io.*, java.net.*" %>
 <!DOCTYPE html>
@@ -93,9 +93,9 @@
 </script> -->
         	    
   <div class="header">
-    <a href="index.jsp" class="logo"><div style = "display: inline-block; color: #d6b2ff;">sc</div>hoolfood</a>
+    <a href="index_bs3.jsp" class="logo"><div style = "display: inline-block; color: #d6b2ff;">sc</div>hoolfood</a>
   <div class="header-right">
-  <a href="CalenderView.jsp">Calendar</a>
+  <a href="CalendarView.jsp">Calendar</a>
   <a href="fav2.jsp">Favorites</a>
     <a href="index_bsg.jsp">Log Out</a>
   </div>
@@ -206,7 +206,13 @@
 		})
 		
 	}
-
+	
+	/* function color(i){
+		var j = i + i;
+		$('#' + j).css("background-color", "dodgerblue");
+		$('#' + j).delay(400).css("background-color", "#f8f8ff");
+	}
+ */
 	function add(i){
 		$.ajax({
 			url: 'add',
@@ -262,7 +268,7 @@
 										//System.out.println("hereee");
 									 %>
 									 <li class = "list-group-item" id = "eventRow">
-										 <div class="row" style = "display: inline-block; background: #f8f8ff; border: 0px solid black; border-radius: 10px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
+										 <div class="row" id = "<%=i + i%>"style = "display: inline-block; background: #f8f8ff; border: 0px solid black; border-radius: 10px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
 											<div class="cell" style = "display: flex-vertical; justify-content: space-between;">
 												<div  style = "display: flex; flex-direction: row; justify-content: space-between; width: 270px;">
 												
@@ -296,7 +302,7 @@
 			
 			<div id = "outterMap" class = "row">
 				<div class= "col-xl-12">
-					<div id = "map" class = "jumbotron" style = "position:absolute; color: black; margin-top: -6%; margin-left: 30%; z-index: 100; height: 575px; margin-bottom: 500px;" ></div>
+					<div id = "map" class = "jumbotron" style = "position:absolute; color: black; margin-top: 3%; margin-left: 30%; z-index: 100; height: 650px; width: 1000px; margin-bottom: 500px;" ></div>
 				</div>
 			</div>
 			
@@ -357,10 +363,10 @@
 			  %>
 		      var contentString = '<div id="content">'+
 		      '<h2 id="firstHeading" class="firstHeading" style = "color:black"> <b>' +
-		      '<%=t%>'+
+		      "<%=t%>"+
 		      '</b></h1>'+
 		      '<div id="bodyContent">'+
-		      '<p style = "color:black;" ><br>' +'<%=Description%>' + 
+		      '<p style = "color:black;" ><br>' +"<%=Description%>" + 
 		      '</p><br>'+
 		      '<p style = "color:black"> Time: ' + 
 		      '<%=time%>' + 
@@ -381,7 +387,7 @@
 	    			
 	    		<%	
 	    	 		String address = map.get(e.getLocation()).trim();
-	    	 		
+	    	 		System.out.println(map.size());
 	    	 		Example ex = g.convert2(address);
 	    	 		double lat = ex.getResults().get(0).getGeometry().getLocation().getLat();
 	    	 		double lon = ex.getResults().get(0).getGeometry().getLocation().getLng();
@@ -413,13 +419,15 @@
 
 	    }// End of init map function 
         
-	    function Display(marker1, infowindow, map) {
+	    function Display(marker1, infowindow, map, i) {
         	if (marker1.getAnimation() !== null) {
         	    marker1.setAnimation(null);
         	  } else {
+        		
         	    marker1.setAnimation(google.maps.Animation.BOUNCE);
         	  } 
         	  infowindow.open(map, marker1);
+        	  /* color(i); */
         }
 	    
    		</script>

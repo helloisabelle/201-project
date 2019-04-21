@@ -40,7 +40,7 @@
   
   
   <div class="header">
-  <a href="index_bs2.jsp" class="logo"><div style = "display: inline-block; color: #d6b2ff;">sc</div>hoolfood</a>
+  <a href="index_bs3.jsp" class="logo"><div style = "display: inline-block; color: #d6b2ff;">sc</div>hoolfood</a>
   <div class="header-right">
     <a href="fav2.jsp">Favorites</a>
     <a href="index_bs.jsp">Log Out</a>
@@ -59,7 +59,7 @@ String eventTitle = (String)request.getParameter("eventTitle");
 System.out.println("Event title is: " + eventTitle);
 
 int id = 0;
-if (!eventTitle.equals(null)) {
+if (eventTitle != (null)) {
 	System.out.println("should be here");
 	for (int i = 0; i < events.size(); i++){
 		if (eventTitle.equals(events.get(i).getTitle())){
@@ -91,8 +91,6 @@ else {
 	}
 	my_tweets = x.search(name);
 %>
-
-  
   
   	
 	<div class="limiter">

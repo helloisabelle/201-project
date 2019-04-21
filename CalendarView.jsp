@@ -36,7 +36,7 @@
 		
 	    
 		<div class="header">
-			<a href="index.jsp" class="logo"><div style = "display: inline-block; color: #d6b2ff;">sc</div>hoolfood</a>
+			<a href="index_bs3.jsp" class="logo"><div style = "display: inline-block; color: #d6b2ff;">sc</div>hoolfood</a>
 			<div class="header-right">
 				<a href="fav2.jsp">Favorites</a>
 				<a href="index_bsg.jsp">Log Out</a>
@@ -180,7 +180,7 @@
     	
 		 <canvas class="background" style = "position: absolute; z-index: -24; height:100%; width: 100% ">
 		 </canvas>
-		 <div class = "calendarColor" style = " z-index: -10;
+		 <!-- <div class = "calendarColor" style = " z-index: -10;
 		    background-color: #3a3a3a ;
 		    position: absolute;
 		    height: 89%;
@@ -188,8 +188,8 @@
 		    margin-left: 9%;
 		    margin-top: 1%;
 		    border-radius: 5px;">
-		 </div>
-		 <div id='calendar' style = "z-index: 100; margin-left: 11%; margin-top: 3%; height: 1050px; width: 1100px; color: white"></div>
+		 </div> -->
+		 <div id='calendar' style = "z-index: 100; margin-left: 11%; margin-top: 3%; height: 1050px; width: 1100px; color: black; background-color:white; border-radius: 5px"></div>
 		 <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
 		 
     
