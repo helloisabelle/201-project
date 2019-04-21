@@ -31,7 +31,7 @@
     	<link href='fullcalendar/daygrid/main.css' rel='stylesheet' />
 	</head>
 	
-	<body style = "position: absolute; z-index: 50; height:100%; width: 100%" >
+	<body style = "position: absolute; z-index: 50; height:100%; width: 100%; margin:0; padding:0; " >
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		
 	    
@@ -109,12 +109,12 @@
 			}
  		%> --%>
 	    <script>
-	    var events = new Array();
+	    var eventUnrefined = new Array();
 		var i = 0;
 		<% ArrayList<Event> event_array = (ArrayList<Event>)session.getAttribute("events");%>
 	    <% for (Event e: event_array) { %>
 	    		<%String title = e.getTitle();%>
-	    		events.push('<%=title%>');
+	    		eventUnrefined.push('<%=title%>');
 	    		<%String date = e.getDate();%>;
 	    		<%String[] splitted = date.split("\\s+");
 	    		  String month = splitted[1];
@@ -135,25 +135,42 @@
 	    		  if (day.length() == 1) day = "0" + day;
 	    		  String dateFinal = "2019-" + month + "-" + day;
 	    		%>
-	    		events.push('<%=dateFinal%>');
-	    		<%String time = e.getTime();%>
-	    		events.push('<%=time%>');
+	    		eventUnrefined.push('<%=dateFinal%>');
+	    		<%-- <%String time = e.getTime();%> --%>
+	    		<%-- eventUnrefined.push('<%=time%>'); --%>
 	    <%}%>
-	    	
-    	
-	    
+	    var events = new Array();
+        for (var i=0; i<eventUnrefined.length-1; i++) {
+        	var date = new Date(eventUnrefined[i+1]+'T00:00:00');
+			events.push( {
+				title: eventUnrefined[i],
+				url: 'http://localhost:8080/group/details2.jsp?'+'eventTitle='+eventUnrefined[i],
+				start: date,
+				allDay: true
+				} );
+        }
+        //console.log('size of array: '+events.length);
+		var today = new Date();
+		var dd = String(today.getDate()).padStart(2, '0');
+		var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+		var yyyy = today.getFullYear();
+		
+		//today = yyyy + '-' + mm + '-' + dd;
+
 	      document.addEventListener('DOMContentLoaded', function() {
 	        var calendarEl = document.getElementById('calendar');
-	        var calendar = new FullCalendar.Calendar(calendarEl, { plugins: [ 'dayGrid' ] } );
-	        
-	        for (var i=0; i<events.length; i++) {
-	        	var date = new Date(events[i+1]+'T00:00:00');
-				calendar.addEvent({
-					title: events[i],
-					start: date,
-					allDay: true
-				});
-	        }
+	        var calendar = new FullCalendar.Calendar(calendarEl, { 
+	        	plugins: [ 'dayGrid' ], 
+	        	eventClick: function(info) {
+	        		var eventObj = info.event;
+	        		alert("Clicked: " + eventObj.title);
+	        		window.open(eventObj.url);
+	        		info.jsEvent.preventDefault();
+	        	}, 
+	        	defaultDate: yyyy + '-' + mm + '-' + dd,
+	        	events
+	        } );
+	       
 			
 				calendar.render();
 			});
@@ -161,7 +178,7 @@
 	
 	    </script> 
     	
-		 <canvas class="background" style = "position: absolute; z-index: 50; height:100%; width: 100% ">
+		 <canvas class="background" style = "position: absolute; z-index: -24; height:100%; width: 100% ">
 		 </canvas>
 		 <div class = "calendarColor" style = " z-index: -10;
 		    background-color: #3a3a3a ;
@@ -172,8 +189,7 @@
 		    margin-top: 1%;
 		    border-radius: 5px;">
 		 </div>
-		 <div id='calendar' style = "z-index: 100; margin-left: 11%; margin-top: 3%; height: 1050px; width: 1100px; color: white">
-		 </div>
+		 <div id='calendar' style = "z-index: 100; margin-left: 11%; margin-top: 3%; height: 1050px; width: 1100px; color: white"></div>
 		 <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.min.js"></script>
 		 
     
