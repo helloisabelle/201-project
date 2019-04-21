@@ -2,27 +2,30 @@
 	pageEncoding="UTF-8"%>
 	
 <%@ page import = "Events.AddressComponent, Events.build, Events.Event_loc, Events.Event, Events.Example, 
-				   Events.geocode, Events.Geometry, Events.Location, Events.Location, Events.Northeast, Events.PlusCode,java.lang.Integer, Events.reading_event, Events.Result, Events.Southwest, Events.Viewport, java.util.ArrayList, java.util.Map , java.util.HashMap, java.io.File,group.check" %>
+				   Events.geocode, Events.Geometry, Events.Location, Events.Location, Events.Northeast, Events.PlusCode,java.lang.Integer,
+				   Events.reading_event, Events.Result, Events.Southwest, Events.Viewport, java.util.ArrayList, java.util.Map,
+				   java.util.HashMap, java.io.File,group.check, Events.eventSorter" %>
 
   <%@ page import="java.io.*, java.net.*" %>
 <!DOCTYPE html>
 	<html>
 	<head>
 		
-				<script type="text/javascript">
+		<script type="text/javascript">
 
-window.onload = function() {
-	  Particles.init({
-	    selector: '.background',
-	    	color: ['#7280ff', '#ff9999', '#df0fff'],
-	    	  connectParticles: true,
-	    	  sizeVariations: 4,
-	    	  maxParticles: 70,
-	    	  speed: 2
-	  });
-}
+			window.onload = function() {
+		  		Particles.init({
+		    	selector: '.background',
+		    	color: ['#7280ff', '#ff9999', '#df0fff'],
+		    	  connectParticles: true,
+		    	  sizeVariations: 4,
+		    	  maxParticles: 70,
+		    	  speed: 2
+		  		});
+			}
+		</script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-</script>
     	<meta charset="utf-8">
 		<title>Insert title here</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
@@ -92,6 +95,7 @@ window.onload = function() {
   <div class="header">
     <a href="index.jsp" class="logo"><div style = "display: inline-block; color: #d6b2ff;">sc</div>hoolfood</a>
   <div class="header-right">
+  <a href="CalenderView.jsp">Calendar</a>
   <a href="fav2.jsp">Favorites</a>
     <a href="index_bsg.jsp">Log Out</a>
   </div>
@@ -138,13 +142,41 @@ window.onload = function() {
 		</div>
 	</div> --%>
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"> </script>
+	<%-- <script> 
+		function sort(x){
+			window.alert(<% event_array.size();%>)
+			if(document.getElementById("selectID").value == "1"){
+				$("#eventTable").empty();
+				<%if(event_array.size() > 0){
+				eventSorter es =  new eventSorter(event_array, 0);
+				event_array = es.sortArray();
+				for(int i = 0; i < event_array.size(); i++ ){
+					String t = event_array.get(i).getTitle();
+					String Description = event_array.get(i).getDescription();
+					String date = event_array.get(i).getDate();
+					String location = event_array.get(i).getLocation();
+					String time = event_array.get(i).getTime();
+					
+					int x = event_array.get(i).getLike();
+					int like_id = i;
+				
+				%>
+					$('#eventTable').append(
+						$('<li>').attr({'class' : 'list-group-item', 'id' : 'eventRow'}).append(
+								$('<div>').attr({'class':'row','style':'display:inline-block; background: #f8f8ff; border: 0px solid black; border-radius: 10px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;'}).append(
+										$('<div>').attr({'class':'cell', 'style':'display: flex-vertical; justify-content: space-between;'}).append(
+												$('<div>').attr('style', 'display: flex; flex-direction: row; justify-content: space-between; width: 270px;').append(
+														$('a').attr({'style': 'padding-left: 10px;display: inline-block; font-family: avenir ;color: black;font-size: 15px; text-decoration: none','id': <%=i%>,'onclick': 'func(' + <%=i%>+')' ,'href': 'details2.jsp', }).text(<%=t%>).append(
+																$('form').attr({'name': 'myform' + <%=like_id%>, 'action': 'index_bs3.jsp', 'onsubmit': 'return validate(' + <%=i%> + ')', 'method': 'GET'}).append(
+																		$('input').attr({'name':'like_id', 'value': <%=like_id%>,  'style': 'display:none;'}).append(
+																				$('input').attr({'style': 'background', 'id': 'formerror' + <%=like_id%>, 'class': 'btn', 'type':'submit', 'value':'♥' + <%=x%>})
+					)))))))));
+				<% }}%>
+			}
+		}
+	
+	</script> --%>
 	<script>
-	
-	
-	function sort(x){
-		var list = document.getElementById("eventTable");
-		
-	}
 	
 	function validate(i) {
 		add(i);
@@ -160,9 +192,7 @@ window.onload = function() {
 		// document.getElementById("formerror").innerHTML = "<font><em>Successful login!</em></font>";
 		 return true;
 	 }
-	
-	
-	 
+		 
 	function func(i){
 		$.ajax({
 			url: 'e',
@@ -204,14 +234,16 @@ window.onload = function() {
     							<div id="custom-select">
     								<span style = "float: right">
 										<select id = "selectID" style = "background-color: dodgerblue ;color: white; font-size:15px"  onchange = "sort(this.value);">
-											<option value="0" style = "color: white" >Likes DESC</option>
-									
+											<option value="0" style = "color: white" >Most Likes </option>
+											<option value="1" style = "color: white" >Closest Event (Distance)</option>
+											<option value="2" style = "color: white" >Earliest Event</option>
+											<option value="3" style = "color: white" >Alphabetical A-Z</option>
 										</select>
 									</span>
 								</div>
 								
     						</div>
-	   						<div class="card-body" style = "border-radius: 5px ;">
+	   						<div class="card-body" id = "content"style = "border-radius: 5px ;">
 								
 	        					<ul class="list-group list-group-flush" id = "eventTable"style = "overflow:scroll;-webkit-overflow-scrolling: touch;">
 	           						
@@ -230,24 +262,24 @@ window.onload = function() {
 										//System.out.println("hereee");
 									 %>
 									 <li class = "list-group-item" id = "eventRow">
-										 <div class="row" style = "display: inline-block; background: #f8f8ff; border: 1px solid black; border-radius: 5px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
+										 <div class="row" style = "display: inline-block; background: #f8f8ff; border: 0px solid black; border-radius: 10px ;padding-top: 10px;padding-bottom: 10px; padding-left: 10px; padding-right: 10px;">
 											<div class="cell" style = "display: flex-vertical; justify-content: space-between;">
 												<div  style = "display: flex; flex-direction: row; justify-content: space-between; width: 270px;">
 												
-												<a style = "padding-left: 10px;display: inline-block; font-family: andika ;color: black;font-size: 15px; text-decoration: none" id = <%=i %> onclick = "func('<%=i %>')" href="details2.jsp" ><%= t %></a>
+												<a style = "padding-left: 10px;display: inline-block; font-family: avenir ;color: black;font-size: 15px; text-decoration: none" id = <%=i %> onclick = "func('<%=i %>')" href="details2.jsp" ><%= t %></a>
 												<form name = "myform<%= like_id %>" action = "index_bs3.jsp" onsubmit="return validate('<%=i %>');" method = "GET">
-													<input name="like_id" value = <%= like_id %> style = "display: none;">
-													   <input  id="formerror<%= like_id %>" class = "btn"  type="submit" value= "♥ <%= x %>" >
+													<%-- <input name="like_id" value = <%= like_id %> style = "display: none;">--%>
+													   <input style = " background" id="formerror<%= like_id %>" class = "btn"  type="submit" value= "♥ <%= x %>" >
 													<%-- <input  id="formerror<%= like_id %>" class = "btn"  style = "padding: 3px 3px; text-shadow: 0px  -1px 0px rgba(0,0,0,.5);-webkit-box-shadow: 0px 6px 0px #2b638f; -moz-box-shadow: 0px 6px 0px #2b638f; box-shadow: 0px 6px 0px #2b638f; " type="submit" value= "♥ <%= x %>"></span> </p> --%>
 													</form>
 													</div>
 											</div>
 													
-<%-- 													<p style = "color: #76797c;padding-left:10px;">  <%=Description %></p>
-													<p style = "color: black"><i class="far fa-clock" style = "padding-left: 5px; color: black; "></i>Time:   <%=time %></p>
-													<p style = "color: black"><i class="far fa-calendar-alt" style = "padding-left: 5px; color: black; "></i>Date:   <%=date %></p>
-													<p style = "color: black"><i class="fas fa-map-marker-alt" style = "padding-left: 5px;color: black"></i> Building: <%=location %><span style = "float: right; padding-right: 5px;"> --%>
+<%-- 													<p style = "color: #76797c;padding-left:10px;">  <%=Description %></p>--%>
 													
+													<%-- <p style = "color: black"><i class="far fa-calendar-alt" style = "padding-left: 5px; color: black; "></i>Date:   <%=date %></p> --%>
+												  	<%-- <p style = "color: black"><i class="fas fa-map-marker-alt" style = "padding-left: 5px;color: black"></i> Building: <%=location %></p> --%>
+													<p style = "color: black; font-family: avenir" ><i class="far fa-clock" style = "padding-left: 5px; color: black; "></i> :   <%=time %></p>
 													
 										 			<%-- <button style = "inline-block;" id = <%=like_id%> onclick = "like('<%=t %>')"> Like <%= x %> </button> --%>
 										 			  
@@ -267,8 +299,6 @@ window.onload = function() {
 					<div id = "map" class = "jumbotron" style = "position:absolute; color: black; margin-top: -6%; margin-left: 30%; z-index: 100; height: 575px; margin-bottom: 500px;" ></div>
 				</div>
 			</div>
-	
-			
 			
 		<script>
 	      var map, windowInfo;
@@ -330,7 +360,7 @@ window.onload = function() {
 		      '<%=t%>'+
 		      '</b></h1>'+
 		      '<div id="bodyContent">'+
-		      '<p style = "color:black"><br>' +'<%=Description%>' + 
+		      '<p style = "color:black;" ><br>' +'<%=Description%>' + 
 		      '</p><br>'+
 		      '<p style = "color:black"> Time: ' + 
 		      '<%=time%>' + 
